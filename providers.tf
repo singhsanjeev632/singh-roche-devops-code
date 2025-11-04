@@ -16,6 +16,11 @@ provider "aws" {
  region = "ap-southeast-2"
 }
 
+provider "local" {
+ 
+}
+
+
 # creating ec2
 resource "aws_instance" "example" {
    ami = "ami-0a25a306450a2cba3"
@@ -27,3 +32,7 @@ resource "aws_instance" "example" {
    
    
 }
+
+
+  
+
