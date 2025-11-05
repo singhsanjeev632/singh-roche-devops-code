@@ -17,6 +17,27 @@ variable "vm-size" {
    type = string
 }
 
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t2.micro"
+}
+
 variable "ec2-key-name" {
   type = string
+}
+
+variable "ami_id" {
+  description = "AMI ID for EC2 instance"
+  type        = string
+}
+
+variable "private-key-algo" {
+  description = "private-key-algo"
+  type        = string
+}
+
+variable "key-size" {
+  description = "key-size"
+  type        = string
 }

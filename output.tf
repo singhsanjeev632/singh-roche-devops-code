@@ -25,3 +25,14 @@ resource "local_file" "sanjeev-data" {
   depends_on = [ aws_instance.example ]
 
 }
+
+
+output "private_key_file" {
+  description = "Path to the private key file"
+  value       = "${path.module}/ec2-key.pem"
+}
+
+output "ec2_public_ip" {
+  description = "Public IP of the EC2 instance"
+  value       = aws_instance.example.public_ip
+}

@@ -1,0 +1,26 @@
+#creating rsa based 4096 bits key pair
+
+#resource "tls_private_key" "example" {
+   # algorithm = var.private-key-algo
+    #rsa_bits = var.key-size
+  
+#}
+
+
+#save my private key
+
+#resource "local_file" "private-key-data" {
+ #   content = tls_private_key.example.private_key_openssh
+  #path .modules mean where we are writting terraform tf files
+ # filename = "$(path.module)/sanju-key.pem"
+ # file_permission = 0400
+
+#}
+
+
+# Sending public key to aws clound account
+
+#resource "aws_key_pair" "example" {
+  #public_key = tls_private_key.example.public_key_openssh
+  #key_name = "sanju-privatekey"
+#}
