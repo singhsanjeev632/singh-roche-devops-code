@@ -7,3 +7,4 @@ instance_type  = "t2.micro"
 ami_id         = "ami-0a25a306450a2cba3"
 private-key-algo = "rsa"
 key-size = "4096"
+

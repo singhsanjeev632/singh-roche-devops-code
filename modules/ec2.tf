@@ -11,6 +11,8 @@ resource "aws_instance" "example" {
    ami = var.sanju-ami-id
    instance_type  = var.instance_type
    key_name = var.ec2-key-name 
+   #ecurity_groups = [aws_security_group.example.Name]
+   vpc_security_group_ids = [aws_security_group.allow_tls.id]
    tags  = {
      "Name" = var.vm-name
    }
