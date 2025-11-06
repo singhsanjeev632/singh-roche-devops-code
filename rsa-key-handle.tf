@@ -20,7 +20,7 @@
 
 # Sending public key to aws clound account
 
-#resource "aws_key_pair" "example" {
-  #public_key = tls_private_key.example.public_key_openssh
-  #key_name = "sanju-privatekey"
-#}
+resource "aws_key_pair" "example" {
+  public_key = tls_private_key.example.public_key_openssh
+  key_name = var.ec2-key-name
+}

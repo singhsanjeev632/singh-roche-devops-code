@@ -2,7 +2,7 @@ name: sanjeev's job
 # trigger point 
 on:
   push:
-    branches: [ "dryrun-aws" ]
+    branches: [ "main" ]
     paths-ignore:
       - "README.md"
       - "terraform.tfstate"
@@ -16,7 +16,7 @@ jobs:
       -name: taking code from my repo
         uses: actions/checkout@5
         with:
-          ref: dryrun-aws
+          ref: maingit
 
 
     - name: my first step to test github action 
