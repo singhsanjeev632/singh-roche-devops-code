@@ -1,35 +1,34 @@
-name: sanjeev's job 
+name: sanju job 
 # trigger point 
 on:
   push:
-    branches: [ "main1" ]
+    branches: [ "main" ]
     paths-ignore:
       - "README.md"
       - "terraform.tfstate"
 
 # creating jobs 
 jobs:
-  test-job:
+  infra-provision-job:
     runs-on: ubuntu-latest 
     steps: # what exactly you want to run in ubuntu machine 
-#calling first github action to clone my dryrun-aws data to runner machine
-      -name: taking code from my repo
-        uses: actions/checkout@5
-        with:
-          ref: main1
-
-
+    # calling first github action to clone my dryrun-aws data to runner machine 
+    - name: taking code from my repo 
+      uses: actions/checkout@v5
+      with:
+        ref: master 
+# terraform installing 
+    - name: installing terraform 
+      uses: hashicorp/setup-terraform@v3
+# running some commands 
     - name: my first step to test github action 
       run: |
         echo "Hello world"
         git version 
         whoami
         ls -a 
-       # terraform version
-       # docker version
-    
-    # Configure aws secrets
-
+        terraform version
+    # configure aws secret keys 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v5.1.0
       with:
@@ -37,9 +36,70 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-southeast-2
 
+    - name: verify aws connection 
+      run: | 
+        echo "checking with command"
+        aws s3 ls 
+    - name: deploy terraform resources 
+      run: | 
+        echo "implementing terraform deals"
+        terraform init 
+        terraform plan 
+        sleep 2
+        terraform apply --auto-approve 
+        ls modules/ec2
+# creating artifact and uploading ansible inventory file 
+    - name: uploading ansible inventory to github artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: sanju-github-artifact
+        path: modules/ec2/ansible-inventory.txt
+              modules/ec2/sanju-key.pem
 
-        -name verify aws connection
-         run:
-          echo "checking with command"
-          aws s3 ls
-  
+  infra-destroy-job:
+    needs: infra-provision-job
+    runs-on: ubuntu-latest
+    steps:
+    - name: checking out code 
+      uses: actions/checkout@v5
+      with:
+        ref: master 
+    - name: login to aws creds 
+      uses: aws-actions/configure-aws-credentials@v5.1.0
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-southeast-2
+# downloading artifact the one i created above
+    - name: downloading ansible inventory from artifact 
+      uses: actions/download-artifact@v5
+      with:
+        name: sanju-github-artifact
+# listing artifact
+    - name: Display structure of downloaded files
+      run: ls -R
+
+    # isntalling  
+    - name: installing terraform 
+      uses: hashicorp/setup-terraform@v3
+
+    - name: destroying it 
+      run: | 
+        echo "checking resoruces"
+        terraform init 
+        terraform state list
+        terraform destroy --auto-approve
+
+    # installing ansible
+    - name: installing ansible
+      run: |
+        echo "setup of ansible in ubuntu machine"
+        sudo apt update
+        sudo apt install ansible2 -y
+        ansible --version
+    - name: "running amsible playbook in dynamic inventory"
+        run: | 
+          echo "running ansible playbook"
+          chmod 400 sanju-key.pem
+          cd my-ansible
+          ansible-playbook -i ../ansible-inventory.txt --private-key ../sanju-key.pem playbook1.yaml 

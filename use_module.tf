@@ -26,13 +26,14 @@ provider "aws" {
 module "my-sanju-module-ec2" {
     source = "./modules/ec2"
     ashu-ami-id = "ami-0a25a306450a2cba3"
-    vm-name = "sanju-vmby-module"
+    vm-name = "sanju-vmby-module-dayfinal"
     vm-size = "t2.nano"
-    ec2-key-name = "sanjukeyby-mode"
+    ec2-key-name = "sanjukeyby-modedayfinal"
     private-key-algo = "RSA"
     key-size = 4096
     my-vpc-id = "vpc-02d56e9aa1ce2f114"
     my-sec-group-name = "sanju-bymode-sec"
+    novm = 2 
     
 
   

@@ -1,9 +1,8 @@
 variable "sanju-ami-id" {
-  type = string
-  description = "this is sydney aws region ami id"
-  #default = "ami-0a25a306450a2cba3"
-  # not a good practise to keep vairable value directly in the file
-
+    type = string
+    description = "this is sydney aws region ami id"
+    #default = "ami-0a25a306450a2cba3"
+  
 }
 
 variable "vm-name" {
@@ -14,33 +13,22 @@ variable "vm-name" {
 }
 
 variable "vm-size" {
-   type = string
-}
-
-variable "instance_type" {
-  description = "EC2 instance type"
-  type        = string
-  default     = "t2.micro"
+    type = string
 }
 
 variable "ec2-key-name" {
   type = string
 }
 
-variable "ami_id" {
-  description = "AMI ID for EC2 instance"
-  type        = string
-}
-
 variable "private-key-algo" {
-  description = "private-key-algo"
-  type        = string
+    type = string
+  
 }
 
 variable "key-size" {
-  description = "key-size"
-  type        = string
+    type = number
+  
 }
-
 variable "my-vpc-id" {}
 variable "my-sec-group-name" {}
+variable "novm" {}
