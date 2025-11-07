@@ -1,0 +1,5 @@
+---
+- name: defining target group
+  hosts: sanju-roche
+  roles:
+    - apache-webserver
